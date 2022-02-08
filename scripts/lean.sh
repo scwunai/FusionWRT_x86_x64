@@ -183,8 +183,7 @@ sed -i "s/OpenWrt /DHDAXCW @ FusionWrt /g" package/lean/default-settings/files/z
 
 # Test kernel 5.10
 # sed -i 's/5.10/5.4/g' target/linux/x86/Makefile
-# sed -i 's/5.15/5.10/g' target/linux/x86/Makefile
-sed -i 's/5.15/5.15/g' target/linux/x86/Makefile
+sed -i 's/5.15/5.10/g' target/linux/x86/Makefile
 
 
 # Custom configs
