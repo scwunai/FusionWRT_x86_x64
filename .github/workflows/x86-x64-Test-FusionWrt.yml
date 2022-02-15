@@ -1,4 +1,4 @@
-name: x86-x64-docker-FusionWRT
+name: x86-x64-test-FusionWRT
 
 on:
   repository_dispatch:
