@@ -54,13 +54,6 @@ jobs:
         git config --global user.email "git@github.com"
         git config --global user.name "GitHub"
         git clone $REPO_URL -b $REPO_BRANCH openwrt
-        cd openwrt
-
-    - name: Cache
-      uses: klever1988/cachewrtbuild@main
-      with:
-        ccache: 'true'
-        prefix: ${{ github.workspace }}/openwrt
 
     - name: Update Feeds
       id: update
@@ -100,7 +93,6 @@ jobs:
         then
             echo "CONFIG_ALL_NONSHARED=y" >> .config
         fi
-        ../scripts/modify_config.sh
         cat .config
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -228,14 +220,6 @@ jobs:
           ./transfer wet -s -p 16 --no-progress ${FIRMWARE} 2>&1 | tee wetransfer.log
           echo "::warning file=Firmware-Wetransfer.com::$(cat wetransfer.log | grep https)"
           echo "::set-output name=url::$(cat wetransfer.log | grep https | cut -f3 -d" ")"
-      - name: Upload Firmware To CowTransfer
-        id: cowtransfer
-        if: steps.organize.outputs.ORGANIZE_STATUS == 'success' && env.UPLOAD_COWTRANSFER == 'true'
-        run: |
-          cd $OPENWRTROOT/bin/targets/$TARGET/
-          ./transfer cow --block 2621440 -s -p 64 --no-progress ${FIRMWARE} 2>&1 | tee cowtransfer.log
-          echo "::warning file=Firmware-Cowtransfer.com::$(cat cowtransfer.log | grep https)"
-          echo "::set-output name=url::$(cat cowtransfer.log | grep https | cut -f3 -d" ")"
       - name: Generate release tag
         id: tag
         if: env.UPLOAD_RELEASE == 'true' && !cancelled()
@@ -243,7 +227,6 @@ jobs:
           echo "::set-output name=release_tag::$(date +"%Y.%m.%d")-Lean1"
           echo "::set-output name=release_date::$(date +"%Y.%m.%d")"
           touch release.txt
-          [ $UPLOAD_COWTRANSFER = true ] && echo "🔗 [Cowtransfer](${{ steps.cowtransfer.outputs.url }})" >> release.txt
           [ $UPLOAD_WETRANSFER = true ] && echo "🔗 [WeTransfer](${{ steps.wetransfer.outputs.url }})" >> release.txt
           echo "::set-output name=status::success"
       - name: Upload firmware to release
@@ -252,7 +235,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: ${{ steps.tag.outputs.release_date }} x86-64-formal-edition_正式版_全插件
+          name: ${{ steps.tag.outputs.release_date }} x86-64-Linux-5.15_正式版_全插件
           tag_name: ${{ steps.tag.outputs.release_tag }}
           body_path: release.txt
           files: ${{ env.FIRMWARE }}/*
