@@ -22,8 +22,13 @@ env:
 
 jobs:
   Build:
+<<<<<<< HEAD
     runs-on: ubuntu-20.04
     if: github.repository == 'scwunai/FusionWRT_x86_x64'
+=======
+    runs-on: self-hosted
+    if: github.repository == 'DHDAXCW/FusionWRT_x86_x64'
+>>>>>>> remote/main
     outputs:
       OPENWRTROOT: ${{ steps.update.outputs.OPENWRTROOT }}
       PLATFORM: ${{ steps.compile.outputs.PLATFORM }}
@@ -173,8 +178,13 @@ jobs:
         
   Upload:
     needs: [Build]
+<<<<<<< HEAD
     runs-on: ubuntu-20.04
     if: github.repository == 'scwunai/FusionWRT_x86_x64'
+=======
+    runs-on: self-hosted
+    if: github.repository == 'DHDAXCW/FusionWRT_x86_x64'
+>>>>>>> remote/main
     steps:
       - name: Checkout
         uses: actions/checkout@main
