@@ -173,13 +173,8 @@ jobs:
         
   Upload:
     needs: [Build]
-<<<<<<< HEAD
     runs-on: ubuntu-20.04
-    if: github.repository == 'scwunai/FusionWRT_x86_x64'
-=======
-    runs-on: self-hosted
-    if: github.repository == 'DHDAXCW/FusionWRT_x86_x64'
->>>>>>> remote/main
+    if: github.repository == 'scwunai/FusionWRT_x86_x64‘
     steps:
       - name: Checkout
         uses: actions/checkout@main
