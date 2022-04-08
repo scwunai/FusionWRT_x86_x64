@@ -174,7 +174,7 @@ jobs:
   Upload:
     needs: [Build]
     runs-on: ubuntu-20.04
-    if: github.repository == 'scwunai/FusionWRT_x86_x64‘
+    if: github.repository == 'scwunai/FusionWRT_x86_x64'
     steps:
       - name: Checkout
         uses: actions/checkout@main
