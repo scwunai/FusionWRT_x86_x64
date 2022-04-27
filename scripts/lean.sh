@@ -7,6 +7,14 @@ svn export https://github.com/openwrt/packages/trunk/utils/runc/Makefile ./feeds
 rm -rf ./feeds/packages/admin/netdata
 svn co https://github.com/DHDAXCW/packages/branches/ok/admin/netdata ./feeds/packages/admin/netdata
 
+# Addd mosdns
+svn export https://github.com/QiuSimons/openwrt-mos/trunk/mosdns package/lean/mosdns
+svn export https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns package/lean/luci-app-mosdns
+svn export https://github.com/QiuSimons/openwrt-mos/trunk/v2ray-geodata package/lean/v2ray-geodata
+
+# Add luci-app-passwall
+git clone --depth=1 https://github.com/MilesPoupart/openwrt-passwall ./package/lean/openwrt-passwall
+
 # Clone community packages to package/community
 mkdir package/community
 pushd package/community
@@ -18,7 +26,7 @@ rm -rf openwrt-package/verysync
 rm -rf openwrt-package/luci-app-verysync
 
 # Add luci-app-ssr-plus
-git clone --depth=1 https://github.com/fw876/helloworld.git
+git clone --depth=1 https://github.com/DHDAXCW/helloworld
 
 # Add luci-app-unblockneteasemusic
 rm -rf ../../customfeeds/luci/applications/luci-app-unblockmusic
@@ -34,10 +42,6 @@ git clone --depth=1 https://github.com/jerrykuku/luci-app-vssr
 # Add luci-app-netdata
 rm -rf ../../feeds/luci/applications/luci-app-netdata
 git clone --depth=1 https://github.com/sirpdboy/luci-app-netdata
-
-# Add mentohust & luci-app-mentohust
-git clone --depth=1 https://github.com/BoringCat/luci-app-mentohust
-git clone --depth=1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk
 
 # Add luci-proto-minieap
 git clone --depth=1 https://github.com/ysc3839/luci-proto-minieap
@@ -150,12 +154,6 @@ rm -rf https-dns-proxy
 svn co https://github.com/Lienol/openwrt-packages/trunk/net/https-dns-proxy
 popd
 
-# Use snapshots syncthing package
-pushd feeds/packages/utils
-rm -rf syncthing
-svn co https://github.com/openwrt/packages/trunk/utils/syncthing
-popd
-
 # Add po2lmo
 git clone --depth=1 https://github.com/openwrt-dev/po2lmo.git
 pushd po2lmo
@@ -174,7 +172,3 @@ sed -i "s/OpenWrt /DHDAXCW @ FusionWrt /g" package/lean/default-settings/files/z
 # sed -i 's/5.4/5.10/g' target/linux/x86/Makefile
 
 echo -e " DHDAXCW's FusionWrt built on "$(date +%Y.%m.%d)"\n -----------------------------------------------------" >> package/base-files/files/etc/banner
-echo 'net.bridge.bridge-nf-call-iptables=0' >> package/base-files/files/etc/sysctl.conf
-echo 'net.bridge.bridge-nf-call-ip6tables=0' >> package/base-files/files/etc/sysctl.conf
-echo 'net.bridge.bridge-nf-call-arptables=0' >> package/base-files/files/etc/sysctl.conf
-echo 'net.bridge.bridge-nf-filter-vlan-tagged=0' >> package/base-files/files/etc/sysctl.conf
