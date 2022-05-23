@@ -1,20 +1,5 @@
 #!/bin/bash
 
-rm -rf ./feeds/packages/utils/runc/Makefile
-svn export https://github.com/openwrt/packages/trunk/utils/runc/Makefile ./feeds/packages/utils/runc/Makefile
-
-# fix netdata
-rm -rf ./feeds/packages/admin/netdata
-svn co https://github.com/DHDAXCW/packages/branches/ok/admin/netdata ./feeds/packages/admin/netdata
-
-# Addd mosdns
-svn export https://github.com/QiuSimons/openwrt-mos/trunk/mosdns package/lean/mosdns
-svn export https://github.com/QiuSimons/openwrt-mos/trunk/luci-app-mosdns package/lean/luci-app-mosdns
-svn export https://github.com/QiuSimons/openwrt-mos/trunk/v2ray-geodata package/lean/v2ray-geodata
-
-# Add luci-app-passwall
-git clone --depth=1 https://github.com/MilesPoupart/openwrt-passwall ./package/lean/openwrt-passwall
-
 # Clone community packages to package/community
 mkdir package/community
 pushd package/community
@@ -26,28 +11,22 @@ rm -rf openwrt-package/verysync
 rm -rf openwrt-package/luci-app-verysync
 
 # Add luci-app-ssr-plus
-git clone --depth=1 https://github.com/DHDAXCW/helloworld
+git clone --depth=1 https://github.com/fw876/helloworld
+
+# Add luci-app-passwall
+git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall
+svn co https://github.com/xiaorouji/openwrt-passwall/branches/luci/luci-app-passwall
 
 # Add luci-app-unblockneteasemusic
 rm -rf ../../customfeeds/luci/applications/luci-app-unblockmusic
 git clone --depth=1 https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic.git
 
-# Add luci-app-passwall
-#git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall
-
 # Add luci-app-vssr <M>
 git clone --depth=1 https://github.com/jerrykuku/lua-maxminddb.git
 git clone --depth=1 https://github.com/jerrykuku/luci-app-vssr
 
-# Add luci-app-netdata
-rm -rf ../../feeds/luci/applications/luci-app-netdata
-git clone --depth=1 https://github.com/sirpdboy/luci-app-netdata
-
 # Add luci-proto-minieap
 git clone --depth=1 https://github.com/ysc3839/luci-proto-minieap
-
-# Add luci-app-bypass
-# git clone --depth=1 https://github.com/garypang13/luci-app-bypass.git
 
 # Add luci-app-onliner (need luci-app-nlbwmon)
 git clone --depth=1 https://github.com/rufengsuixing/luci-app-onliner
@@ -62,16 +41,7 @@ svn co https://github.com/linkease/nas-packages/trunk/network/services/ddnsto
 svn co https://github.com/linkease/nas-packages/trunk/network/services/linkease
 
 # Add OpenClash
-git clone --depth=1 -b master https://github.com/vernesong/OpenClash
-# git clone https://github.com/DHDAXCW/OpenClash
-
-# Add luci-app-diskman
-# git clone --depth=1 https://github.com/SuLingGG/luci-app-diskman
-# mkdir parted
-# cp luci-app-diskman/Parted.Makefile parted/Makefile
-
-# Add luci-app-ikoolproxy (godproxy)
-git clone --depth=1 https://github.com/iwrt/luci-app-ikoolproxy.git
+svn co https://github.com/vernesong/OpenClash/trunk/luci-app-openclash
 
 # Add luci-app-dockerman
 rm -rf ../../customfeeds/luci/collections/luci-lib-docker
@@ -113,21 +83,6 @@ rm -rf ../../customfeeds/luci/applications/aliyundrive-webdav
 svn co https://github.com/messense/aliyundrive-webdav/trunk/openwrt/aliyundrive-webdav
 svn co https://github.com/messense/aliyundrive-webdav/trunk/openwrt/luci-app-aliyundrive-webdav
 
-# Add cpufreq
-rm -rf ../../customfeeds/luci/applications/luci-app-cpufreq
-svn co https://github.com/immortalwrt/luci/trunk/applications/luci-app-cpufreq
-sed -i 's,1608,1800,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,2016,2208,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-sed -i 's,1512,1608,g' luci-app-cpufreq/root/etc/uci-defaults/cpufreq
-popd
-
-# 动态DNS
-git clone --depth 1 https://github.com/small-5/ddns-scripts-dnspod package/lean/ddns-scripts_dnspod
-git clone --depth 1 https://github.com/small-5/ddns-scripts-aliyun package/lean/ddns-scripts_aliyun
-svn co https://github.com/QiuSimons/OpenWrt_luci-app/trunk/luci-app-tencentddns package/lean/luci-app-tencentddns
-svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-aliddns feeds/luci/applications/luci-app-aliddns
-ln -sf ./feeds/luci/applications/luci-app-aliddns ./package/feeds/luci/luci-app-aliddns
-
 # Add Pandownload
 pushd package/lean
 svn co https://github.com/immortalwrt/packages/trunk/net/pandownload-fake-server
@@ -146,12 +101,6 @@ popd
 pushd feeds/packages/libs
 rm -rf libssh
 svn co https://github.com/openwrt/packages/trunk/libs/libssh
-popd
-
-# Use Lienol's https-dns-proxy package
-pushd feeds/packages/net
-rm -rf https-dns-proxy
-svn co https://github.com/Lienol/openwrt-packages/trunk/net/https-dns-proxy
 popd
 
 # Add po2lmo
